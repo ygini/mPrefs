@@ -30,7 +30,18 @@ enum kOperationType: String {
 let unwantedKeys = UserDefaults.init().dictionaryRepresentation().keys
 
 func help() {
-    print("Someone should write a doc")
+    print("mPrefs is a simple command line allowing system administrator to check a target domain with managed preferences applied.")
+    print("")
+    print("-d com.github.ygini.Hello-IT\t\t\t\tUse the -d to specify the target domain to read")
+    print("-o read\t\t\t\t\t\t\t\t\t\tThe -o option allow you to select your operation:")
+    print("\t\t\t\t\t\t\t\t\t\t\t\t\"list\" to list all managed keys")
+    print("\t\t\t\t\t\t\t\t\t\t\t\t\"listall\" to list all keys, managed or not")
+    print("\t\t\t\t\t\t\t\t\t\t\t\t\"read\" to read all keys, managed or not")
+    print("-k content\t\t\t\t\t\t\t\t\tWith -k, you can specify the key to read")
+    print("\t\t\t\t\t\t\t\t\t\t\t(usable with operation listall and read)")
+    print("-k 1\t\t\t\t\t\t\t\t\t\tWhen -pk is set to 1, you can use a keypath with -k")
+    print("")
+    print("More informations on keypath available here: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/CollectionOperators.html")
 }
 
 func listManagedKeys(in defaults:UserDefaults) {
@@ -99,19 +110,19 @@ func readKey(in defaults:UserDefaults, atKey key:String?, keyIsKeyPath: Bool = f
 }
 
 guard let targetDomain = UserDefaults.standard.string(forKey: kTargetDomain) else {
-    print("No reading domain set, please use -\(kTargetDomain) to specify your desired domain")
+    print("No reading domain set, please use -\(kTargetDomain) to specify your desired domain\n")
     help()
     exit(InternalError.missingDomain.rawValue)
 }
 
 guard let requestedOperationAsString = UserDefaults.standard.string(forKey: kOperation) else {
-    print("No operation set, please use -\(kOperation) to specify your action")
+    print("No operation set, please use -\(kOperation) to specify your action\n")
     help()
     exit(InternalError.missingOperation.rawValue)
 }
 
 guard let requestedOperation = kOperationType(rawValue: requestedOperationAsString) else {
-    print("Invalid operation '\(requestedOperationAsString)', please use -\(kOperation) with a supported action type")
+    print("Invalid operation '\(requestedOperationAsString)', please use -\(kOperation) with a supported action type\n")
     help()
     exit(InternalError.invalidOperation.rawValue)
 }
@@ -120,7 +131,7 @@ let requestedKey = UserDefaults.standard.string(forKey: kKey)
 let requestedKeyIsKeyPath = UserDefaults.standard.bool(forKey: kIsKeyPath)
 
 guard let targetDefaults = UserDefaults.init(suiteName: targetDomain) else {
-    print("Unable to read preference domain '\(targetDomain)'")
+    print("Unable to read preference domain '\(targetDomain)'\n")
     exit(InternalError.domainUnavailable.rawValue)
 }
 
