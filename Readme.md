@@ -67,5 +67,5 @@ $ mPrefs -d ManagedInstalls -o read
 Read specify munki settings:
 ```
 $ mPrefs -d ManagedInstalls -o read -k SoftwareRepoURL
-https://munki-repo.abelionni.com
+https://munki.example.com
 ```
